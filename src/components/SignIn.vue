@@ -47,8 +47,8 @@ const submitForm = () => {
           <span class="text-gray-400 xl:text-xl md text-lg font-medium">Enter your name to submit the scores</span>
         </div>
 
-        <div class="w-full flex flex-col gap-2">
-          <Label for="name" class="text-xl font-semibold">Name</Label>
+        <div class="w-full flex flex-col gap-1">
+          <Label for="name" class="text-lg font-semibold">Name</Label>
           <Input id="name" type="text" placeholder="Enter your name" v-model="name" />
         </div>
 
