@@ -10,15 +10,21 @@ import autoprefixer from 'autoprefixer'
 export default defineConfig({
   css: {
     postcss: {
-      plugins: [tailwind(), autoprefixer()],
-    },
+      plugins: [tailwind(), autoprefixer()]
+    }
   },
-  plugins: [
-    vue(),
-  ],
+  plugins: [vue()],
+  server: {
+    cors: {
+      origin: 'http://localhost:3000',
+      methods: ['GET', 'POST'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      preflightContinue: true
+    }
+  },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
+      '@': path.resolve(__dirname, './src')
+    }
+  }
 })

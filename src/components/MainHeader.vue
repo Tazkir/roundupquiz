@@ -29,7 +29,9 @@ watch(
     <nav class="flex gap-5">
       <RouterLink to="/">Home</RouterLink>
 
-      <h1 v-if="store.getUserInfo.name" @click="store.clearUserStore">Welcome, {{ userName }}!</h1>
+      <button v-if="store.getUserInfo.name" @click="store.clearUserStore" class="cursor-pointer">Welcome, {{ userName
+        }}!
+      </button>
       <RouterLink v-else to="/signin">Sign In</RouterLink>
     </nav>
   </header>

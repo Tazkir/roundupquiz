@@ -79,24 +79,12 @@ function resetCurrentAnswer() {
 <template>
   <section class="w-full flex flex-col items-center gap-10 p-10">
     <h1 class="text-5xl text-center font-bold">Rounding Off the Nearest 10</h1>
-    <div
-      v-if="question"
-      class="flex flex-col gap-10 justify-end items-center p-10 shadow-lg rounded-xl bg-gray-300/10"
-    >
+    <div v-if="question" class="flex flex-col gap-10 justify-end items-center p-10 shadow-lg rounded-xl bg-gray-300/10">
       <h2 class="text-3xl font-semibold text-center">{{ question.question }}</h2>
       <div class="flex xl:flex-row flex-col gap-5 justify-center items-center">
-        <div
-          class="shadow-lg rounded-xl flex gap-3 px-10 py-5"
-          v-for="(option, key) in formatOptions"
-          :key="key"
-        >
+        <div class="shadow-lg rounded-xl flex gap-3 px-10 py-5" v-for="(option, key) in formatOptions" :key="key">
           <label class="text-xl">
-            <input
-              type="radio"
-              :name="`question-${question.id}`"
-              :value="option"
-              v-model="selectedAnswer"
-            />
+            <input type="radio" :name="`question-${question.id}`" :value="option" v-model="selectedAnswer" />
             {{ option }}
           </label>
         </div>
@@ -106,11 +94,11 @@ function resetCurrentAnswer() {
         </Button>
       </div>
 
-      <Button class="w-full" v-if="isQuizCompleted" @click="nextQuestion">
-        Submit and Calculate my scores
+      <Button class="text-lg" size="lg" v-if="isQuizCompleted" @click="nextQuestion">
+        Submit and see my scores
       </Button>
 
-      <Button class="w-full" v-else @click="nextQuestion" :disabled="!selectedAnswer">
+      <Button class="text-lg" size="lg" v-else @click="nextQuestion" :disabled="!selectedAnswer">
         Next Question
       </Button>
     </div>

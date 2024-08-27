@@ -11,12 +11,10 @@ export const useUserStore = defineStore('user', {
       return state.user
     }
   },
-
   actions: {
     setUser(user: { name: string; scores: number }) {
       this.user = user
     },
-
     clearUserStore() {
       this.$reset()
       toast.success('Log out Successfully!')
