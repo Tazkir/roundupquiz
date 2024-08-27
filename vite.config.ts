@@ -14,14 +14,6 @@ export default defineConfig({
     }
   },
   plugins: [vue()],
-  server: {
-    cors: {
-      origin: 'http://localhost:3000',
-      methods: ['GET', 'POST'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-      preflightContinue: true
-    }
-  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
