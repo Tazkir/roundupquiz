@@ -17,7 +17,6 @@ import {
 } from '@tanstack/vue-table'
 import { h, onMounted, ref } from 'vue'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -27,7 +26,9 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { apiUrl } from '@/utils/environment'
-import { Loader2 } from 'lucide-vue-next'
+import { ArrowUpDown, Loader2 } from 'lucide-vue-next'
+import { valueUpdater } from '@/lib/utils'
+import Input from './ui/input/Input.vue'
 
 interface ColoumnUsers {
   name: string
@@ -89,8 +90,12 @@ const columns: ColumnDef<ColoumnUsers>[] = [
   },
   {
     accessorKey: 'score',
-    header: 'Scores',
-    enableSorting: true,
+    header: ({ column }) => {
+      return h(Button, {
+        variant: 'ghost',
+        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+      }, () => ['Scores', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+    },
     cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('score'))
   }
 ]
@@ -109,6 +114,11 @@ const table = useVueTable({
   getSortedRowModel: getSortedRowModel(),
   getFilteredRowModel: getFilteredRowModel(),
   getExpandedRowModel: getExpandedRowModel(),
+  onSortingChange: updaterOrValue => valueUpdater(updaterOrValue, sorting),
+  onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
+  onColumnVisibilityChange: updaterOrValue => valueUpdater(updaterOrValue, columnVisibility),
+  onRowSelectionChange: updaterOrValue => valueUpdater(updaterOrValue, rowSelection),
+  onExpandedChange: updaterOrValue => valueUpdater(updaterOrValue, expanded),
 
   state: {
     get sorting() {
@@ -132,16 +142,18 @@ const table = useVueTable({
 
 <template>
   <div class="w-3/4">
+    <div class="flex gap-2 items-center py-4">
+      <Input class="max-w-sm" placeholder="Filter names..."
+        :model-value="table.getColumn('name')?.getFilterValue() as string"
+        @update:model-value=" table.getColumn('name')?.setFilterValue($event)" />
+    </div>
     <div class="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
             <TableHead v-for="header in headerGroup.headers" :key="header.id">
-              <FlexRender
-                v-if="!header.isPlaceholder"
-                :render="header.column.columnDef.header"
-                :props="header.getContext()"
-              />
+              <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
+                :props="header.getContext()" />
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -168,7 +180,7 @@ const table = useVueTable({
                   <Loader2 class="w-8 h-8 text-green-500 animate-spin" />
                 </div>
               </template>
-              <template v-else> No results. </template>
+              <template v-else>No results.</template>
             </TableCell>
           </TableRow>
         </TableBody>
@@ -177,24 +189,13 @@ const table = useVueTable({
 
     <div class="flex items-center justify-end space-x-2 py-4">
       <div class="flex-1 text-sm text-muted-foreground">
-        {{ table.getFilteredSelectedRowModel().rows.length }} of
-        {{ table.getFilteredRowModel().rows.length }} row(s) selected.
+        {{ table.getFilteredRowModel().rows.length }} Players
       </div>
       <div class="space-x-2">
-        <Button
-          variant="outline"
-          size="sm"
-          :disabled="!table.getCanPreviousPage()"
-          @click="table.previousPage()"
-        >
+        <Button variant="outline" size="sm" :disabled="!table.getCanPreviousPage()" @click="table.previousPage()">
           Previous
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          :disabled="!table.getCanNextPage()"
-          @click="table.nextPage()"
-        >
+        <Button variant="outline" size="sm" :disabled="!table.getCanNextPage()" @click="table.nextPage()">
           Next
         </Button>
       </div>
