@@ -15,14 +15,13 @@ import { toast } from 'vue-sonner';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { apiUrl } from '@/utils/environment';
+import { Loader2 } from 'lucide-vue-next';
+
 
 const userStore = useUserStore()
 const router = useRouter()
 
 const isLoading = ref(false);
-const name = ref(userStore.getUserInfo.name)
-const scores = ref(userStore.getUserInfo.scores)
-
 async function submitScore() {
     isLoading.value = true;
     try {
@@ -32,8 +31,8 @@ async function submitScore() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name: name.value,
-                score: scores.value,
+                name: userStore.getUserInfo.name,
+                score: userStore.getUserInfo.scores,
             }),
         });
 
@@ -82,8 +81,15 @@ async function submitScore() {
             </div>
 
             <DialogFooter class="w-full flex items-center">
-                <Button class="text-base" size="default" @click="submitScore" :disabled="isLoading">{{ isLoading ?
-                    'Submitting...' : 'Submit Now' }}</Button>
+                <Button class="text-base" size="default" @click="submitScore" :disabled="isLoading">
+                    <template v-if="isLoading">
+                        Submitting
+                        <Loader2 class="w-4 h-4 text-white animate-spin" />
+                    </template>
+                    <template v-else>
+                        Submit Now
+                    </template>
+                </Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>

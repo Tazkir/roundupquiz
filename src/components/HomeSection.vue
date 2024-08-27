@@ -3,6 +3,7 @@ import { useUserStore } from '@/stores/user'
 import Button from './ui/button/Button.vue'
 import { RouterLink } from 'vue-router'
 import ConfirmQuizDialog from './ConfirmQuizDialog.vue'
+import HighScores from './HighScores.vue';
 
 const store = useUserStore()
 </script>
@@ -26,6 +27,6 @@ const store = useUserStore()
       </RouterLink>
     </div>
 
-    <!-- TABLE LIST USERS SUBMITTED WITH HIGHEST SCORES -->
+    <HighScores />
   </div>
 </template>
