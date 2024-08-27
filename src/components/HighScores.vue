@@ -137,8 +137,11 @@ const table = useVueTable({
         <TableHeader>
           <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
             <TableHead v-for="header in headerGroup.headers" :key="header.id">
-              <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
-                :props="header.getContext()" />
+              <FlexRender
+                v-if="!header.isPlaceholder"
+                :render="header.column.columnDef.header"
+                :props="header.getContext()"
+              />
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -178,10 +181,20 @@ const table = useVueTable({
         {{ table.getFilteredRowModel().rows.length }} row(s) selected.
       </div>
       <div class="space-x-2">
-        <Button variant="outline" size="sm" :disabled="!table.getCanPreviousPage()" @click="table.previousPage()">
+        <Button
+          variant="outline"
+          size="sm"
+          :disabled="!table.getCanPreviousPage()"
+          @click="table.previousPage()"
+        >
           Previous
         </Button>
-        <Button variant="outline" size="sm" :disabled="!table.getCanNextPage()" @click="table.nextPage()">
+        <Button
+          variant="outline"
+          size="sm"
+          :disabled="!table.getCanNextPage()"
+          @click="table.nextPage()"
+        >
           Next
         </Button>
       </div>
