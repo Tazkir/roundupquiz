@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/sonner'
 </script>
 
 <template>
-  <main class="flex flex-col min-h-screen">
+  <main class="flex flex-col min-h-screen antialiased">
     <Toaster position="bottom-right" rich-colors />
     <MainHeader />
     <RouterView class="flex-grow flex-1" />

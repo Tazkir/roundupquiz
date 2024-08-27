@@ -141,7 +141,7 @@ const table = useVueTable({
 </script>
 
 <template>
-  <div class="xl:w-3/4 w-[99%]">
+  <div class="xl:w-3/4 w-[99%] transition-all">
     <div class="flex gap-2 items-center py-4">
       <Input class="max-w-sm" placeholder="Filter names..."
         :model-value="table.getColumn('name')?.getFilterValue() as string"

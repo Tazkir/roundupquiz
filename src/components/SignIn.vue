@@ -41,12 +41,10 @@ const submitForm = () => {
 <template>
   <div class="w-full flex items-center justify-center px-10">
     <form @submit.prevent="submitForm">
-      <div class="shadow-lg rounded-xl flex flex-col gap-5 px-10 py-5 bg-gray-300/10">
+      <div class="shadow-lg rounded-xl flex flex-col gap-5 px-10 py-14 bg-gray-300/10">
         <div class="w-full flex flex-col justify-center items-center text-center gap-1">
           <h1 class="xl:text-4xl text-3xl font-bold">Sign In</h1>
-          <span class="text-gray-400 xl:text-xl md text-lg font-medium"
-            >Enter your name to submit the scores</span
-          >
+          <span class="text-gray-400 xl:text-xl md text-lg font-medium">Enter your name to submit the scores</span>
         </div>
 
         <div class="w-full flex flex-col gap-2">
