@@ -162,8 +162,7 @@ const table = useVueTable({
             <TableCell :colspan="columns.length" class="h-24 text-center">
               <template v-if="isLoading">
                 <div class="w-full flex justify-center items-center">
-
-                  <Loader2 class="w-8 h-8 text-black animate-spin" />
+                  <Loader2 class="w-8 h-8 text-green-500 animate-spin" />
                 </div>
               </template>
               <template v-else> No results. </template>
