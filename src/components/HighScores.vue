@@ -4,7 +4,7 @@ import type {
   ColumnFiltersState,
   ExpandedState,
   SortingState,
-  VisibilityState,
+  VisibilityState
 } from '@tanstack/vue-table'
 import {
   FlexRender,
@@ -13,7 +13,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useVueTable,
+  useVueTable
 } from '@tanstack/vue-table'
 import { h, onMounted, ref } from 'vue'
 import { Button } from '@/components/ui/button'
@@ -24,75 +24,75 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from '@/components/ui/table'
 import { apiUrl } from '@/utils/environment'
+import { Loader2 } from 'lucide-vue-next'
 
 interface ColoumnUsers {
-  name: string,
+  name: string
   score: number
 }
 
 interface Users {
-  name: string,
+  name: string
   score: number
 }
 
-const isLoading = ref(false);
+const isLoading = ref(false)
 
-const data = ref<Users[]>([]);
+const data = ref<Users[]>([])
 
 async function getUsers() {
-  isLoading.value = true;
+  isLoading.value = true
   try {
     const response = await fetch(`${apiUrl}/api/users`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+        'Content-Type': 'application/json'
+      }
+    })
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
+      throw new Error(`Error: ${response.statusText}`)
     }
 
-    const usersJson = await response.json();
+    const usersJson = await response.json()
 
     // Sort users by scores in descending order
-    const sortedUsers = usersJson.users.sort((a: Users, b: Users) => b.score - a.score);
+    const sortedUsers = usersJson.users.sort((a: Users, b: Users) => b.score - a.score)
 
-    data.value = sortedUsers;
-
+    data.value = sortedUsers
   } catch (error) {
-    console.error(error);
+    console.error(error)
   } finally {
-    isLoading.value = false;
+    isLoading.value = false
   }
 }
 
 onMounted(() => {
-  getUsers();
-});
+  getUsers()
+})
 
 const columns: ColumnDef<ColoumnUsers>[] = [
   {
     accessorKey: 'id',
     header: 'No',
     enableSorting: false,
-    cell: ({ row }) => h('div', { class: 'capitalize' }, row.index + 1),
+    cell: ({ row }) => h('div', { class: 'capitalize' }, row.index + 1)
   },
   {
     accessorKey: 'name',
     header: 'Name',
     enableSorting: false,
-    cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('name')),
+    cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('name'))
   },
   {
     accessorKey: 'score',
     header: 'Scores',
     enableSorting: true,
-    cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('score')),
-  },
+    cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('score'))
+  }
 ]
 
 const sorting = ref<SortingState>([])
@@ -111,12 +111,22 @@ const table = useVueTable({
   getExpandedRowModel: getExpandedRowModel(),
 
   state: {
-    get sorting() { return sorting.value },
-    get columnFilters() { return columnFilters.value },
-    get columnVisibility() { return columnVisibility.value },
-    get rowSelection() { return rowSelection.value },
-    get expanded() { return expanded.value },
-  },
+    get sorting() {
+      return sorting.value
+    },
+    get columnFilters() {
+      return columnFilters.value
+    },
+    get columnVisibility() {
+      return columnVisibility.value
+    },
+    get rowSelection() {
+      return rowSelection.value
+    },
+    get expanded() {
+      return expanded.value
+    }
+  }
 })
 </script>
 
@@ -150,7 +160,13 @@ const table = useVueTable({
 
           <TableRow v-else>
             <TableCell :colspan="columns.length" class="h-24 text-center">
-              No results.
+              <template v-if="isLoading">
+                <div class="w-full flex justify-center items-center">
+
+                  <Loader2 class="w-8 h-8 text-black animate-spin" />
+                </div>
+              </template>
+              <template v-else> No results. </template>
             </TableCell>
           </TableRow>
         </TableBody>
