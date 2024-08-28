@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { LogOutIcon, LogsIcon } from 'lucide-vue-next';
+import { LogInIcon, LogOutIcon, LogsIcon } from 'lucide-vue-next';
 
 const store = useUserStore()
 
@@ -38,22 +38,25 @@ watch(
       <RouterLink to="/">Home</RouterLink>
 
       <DropdownMenu v-if="store.getUserInfo.name">
-        <DropdownMenuTrigger>Welcome, {{ userName }}!</DropdownMenuTrigger>
+        <DropdownMenuTrigger class="hover:text-primary">Welcome, {{ userName }}!</DropdownMenuTrigger>
         <DropdownMenuContent>
-          <RouterLink to="/logs">
+          <RouterLink to="/logs" class="group">
             <DropdownMenuItem>
-              <LogsIcon class="mr-2 h-4 w-4" />
+              <LogsIcon class="mr-2 h-4 w-4 group-hover:text-primary" />
               <span>My Logs</span>
             </DropdownMenuItem>
           </RouterLink>
           <DropdownMenuSeparator />
-          <DropdownMenuItem @click="store.clearUserStore">
-            <LogOutIcon class="mr-2 h-4 w-4" />
+          <DropdownMenuItem @click="store.clearUserStore" class="group">
+            <LogOutIcon class="mr-2 h-4 w-4 group-hover:text-primary" />
             <span> Sign Off</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <RouterLink v-else to="/signin">Sign In</RouterLink>
+      <RouterLink v-else to="/signin" class="flex justify-center items-center group">
+        <LogInIcon class="mr-2 h-4 w-4 group-hover:text-primary" />
+        Sign In
+      </RouterLink>
     </nav>
   </header>
 </template>
