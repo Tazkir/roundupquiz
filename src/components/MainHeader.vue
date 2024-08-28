@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { LogOutIcon, LogsIcon } from 'lucide-vue-next';
 
 const store = useUserStore()
 
@@ -40,10 +41,16 @@ watch(
         <DropdownMenuTrigger>Welcome, {{ userName }}!</DropdownMenuTrigger>
         <DropdownMenuContent>
           <RouterLink to="/logs">
-            <DropdownMenuItem>My Logs</DropdownMenuItem>
+            <DropdownMenuItem>
+              <LogsIcon class="mr-2 h-4 w-4" />
+              <span>My Logs</span>
+            </DropdownMenuItem>
           </RouterLink>
           <DropdownMenuSeparator />
-          <DropdownMenuItem @click="store.clearUserStore">Sign Off</DropdownMenuItem>
+          <DropdownMenuItem @click="store.clearUserStore">
+            <LogOutIcon class="mr-2 h-4 w-4" />
+            <span> Sign Off</span>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <RouterLink v-else to="/signin">Sign In</RouterLink>
