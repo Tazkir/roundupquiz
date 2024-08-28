@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
-import { watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user'
+import { watch } from 'vue'
+import { useRouter } from 'vue-router'
 import type {
     ColumnDef,
     ColumnFiltersState,
@@ -31,10 +31,10 @@ import {
 import { apiUrl } from '@/utils/environment'
 import { ArrowUpDown, Loader2 } from 'lucide-vue-next'
 import { valueUpdater } from '@/lib/utils'
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
-dayjs.extend(relativeTime);
+dayjs.extend(relativeTime)
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -50,14 +50,14 @@ watch(
 )
 
 interface IQuestions {
-    question: string;
-    userAnswer: string;
+    question: string
+    userAnswer: string
 }
 
 interface Logs extends Document {
-    name: string;
-    score: number;
-    userAnswer: IQuestions[];
+    name: string
+    score: number
+    userAnswer: IQuestions[]
 }
 
 const isLoading = ref(false)
@@ -80,7 +80,9 @@ async function getUserLogs() {
 
         const logsData = await response.json()
 
-        const sortedUserLogs = (logsData.logs as Logs[]).filter((log: Logs) => log.name === userStore.getUserInfo.name);
+        const sortedUserLogs = (logsData.logs as Logs[]).filter(
+            (log: Logs) => log.name === userStore.getUserInfo.name
+        )
 
         data.value = sortedUserLogs
     } catch (error) {
@@ -105,24 +107,39 @@ const columns: ColumnDef<Logs>[] = [
         accessorKey: 'name',
         header: 'Name',
         enableSorting: false,
+
         cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('name'))
     },
     {
         accessorKey: 'score',
         header: ({ column }) => {
-            return h(Button, {
-                variant: 'ghost',
-                onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Scores', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+            return h(
+                Button,
+                {
+                    variant: 'ghost',
+                    onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+                },
+                () => ['Scores', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+            )
         },
+
         cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('score'))
     },
     {
         accessorKey: 'createdAt',
-        header: 'Date/Time',
-        enableSorting: false,
+        header: ({ column }) => {
+            return h(
+                Button,
+                {
+                    variant: 'ghost',
+                    onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+                },
+                () => ['Date/Time', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+            )
+        },
+
         cell: ({ row }) => h('div', { class: 'capitalize' }, dayjs(row.getValue('createdAt')).fromNow())
-    },
+    }
 ]
 
 const sorting = ref<SortingState>([])
@@ -141,11 +158,11 @@ const table = useVueTable({
     getFilteredRowModel: getFilteredRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
 
-    onSortingChange: updaterOrValue => valueUpdater(updaterOrValue, sorting),
-    onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
-    onColumnVisibilityChange: updaterOrValue => valueUpdater(updaterOrValue, columnVisibility),
-    onRowSelectionChange: updaterOrValue => valueUpdater(updaterOrValue, rowSelection),
-    onExpandedChange: updaterOrValue => valueUpdater(updaterOrValue, expanded),
+    onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
+    onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
+    onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
+    onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
+    onExpandedChange: (updaterOrValue) => valueUpdater(updaterOrValue, expanded),
 
     state: {
         get sorting() {
@@ -167,11 +184,10 @@ const table = useVueTable({
 
     initialState: {
         pagination: {
-            pageSize: 5,
-        },
+            pageSize: 5
+        }
     }
 })
-
 </script>
 
 <template>

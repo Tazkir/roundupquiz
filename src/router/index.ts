@@ -55,6 +55,14 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.path === '/scores' && from.path.startsWith('/logs')) {
+    next(false)
+  } else {
+    next()
+  }
+})
+
+router.beforeEach((to, from, next) => {
   if (to.path === '/quiz/12' && from.path.startsWith('/scores')) {
     next(false)
   } else {
