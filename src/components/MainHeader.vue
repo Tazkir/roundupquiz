@@ -38,7 +38,7 @@ watch(
       <RouterLink to="/">Home</RouterLink>
 
       <DropdownMenu v-if="store.getUserInfo.name">
-        <DropdownMenuTrigger class="hover:text-primary">Welcome, {{ userName }}!</DropdownMenuTrigger>
+        <DropdownMenuTrigger class="hover:text-primary">Hi, {{ userName }}! 👋</DropdownMenuTrigger>
         <DropdownMenuContent>
           <RouterLink to="/logs" class="group">
             <DropdownMenuItem>
