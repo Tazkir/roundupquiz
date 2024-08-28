@@ -94,9 +94,6 @@ onMounted(() => {
     getUserLogs()
 })
 
-console.log(data);
-
-
 const columns: ColumnDef<Logs>[] = [
     {
         accessorKey: 'id',
