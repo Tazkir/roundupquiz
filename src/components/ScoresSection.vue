@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useQuestionStore } from '@/stores/question'
 import { cn } from '@/lib/utils'
 import { useUserStore } from '@/stores/user'
@@ -7,10 +7,11 @@ import Button from './ui/button/Button.vue'
 import { useRouter } from 'vue-router'
 import { RefreshCcw } from 'lucide-vue-next'
 import SubmitScoreButton from './SubmitScoreButton.vue'
+import { apiUrl } from '@/utils/environment'
+import { toast } from 'vue-sonner'
 
 const store = useQuestionStore()
 const userStore = useUserStore()
-
 const router = useRouter()
 
 watch(
@@ -46,6 +47,42 @@ const questionsWithAnswers = computed(() => {
     ...question,
     userAnswer: store.getAnswer(question.id)
   }))
+})
+
+const isLoading = ref(false)
+async function submitScore() {
+  isLoading.value = true
+  try {
+
+    const userAnswerData = questionsWithAnswers.value.map(question => ({
+      question: question.question,
+      userAnswer: question.userAnswer,
+    }))
+
+    const response = await fetch(`${apiUrl}/api/logs`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: userStore.getUserInfo.name,
+        score: userStore.getUserInfo.scores,
+        userAnswer: userAnswerData,
+      })
+    })
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`)
+    }
+  } catch (error) {
+    toast.error('Logs not created! Please try again')
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  submitScore()
 })
 
 function restartQuiz() {

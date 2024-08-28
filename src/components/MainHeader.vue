@@ -2,6 +2,13 @@
 import { useUserStore } from '@/stores/user'
 import { ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 const store = useUserStore()
 
@@ -29,9 +36,16 @@ watch(
     <nav class="flex gap-5">
       <RouterLink to="/">Home</RouterLink>
 
-      <button v-if="store.getUserInfo.name" @click="store.clearUserStore" class="cursor-pointer">
-        Welcome, {{ userName }}!
-      </button>
+      <DropdownMenu v-if="store.getUserInfo.name">
+        <DropdownMenuTrigger>Welcome, {{ userName }}!</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <RouterLink to="/logs">
+            <DropdownMenuItem>My Logs</DropdownMenuItem>
+          </RouterLink>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem @click="store.clearUserStore">Sign Off</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
       <RouterLink v-else to="/signin">Sign In</RouterLink>
     </nav>
   </header>

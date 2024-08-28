@@ -21,6 +21,7 @@
     "@vueuse/core": "^11.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "lucide-vue-next": "^0.435.0",
     "pinia": "^2.1.7",
     "radix-vue": "^1.9.4",

@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue'
 import SignInView from '@/views/SignInView.vue'
 import QuizView from '@/views/QuizView.vue'
 import ScoresView from '@/views/ScoresView.vue'
+import LogsView from '@/views/LogsView.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/scores',
     name: 'scores',
     component: ScoresView
+  },
+  {
+    path: '/logs',
+    name: 'logs',
+    component: LogsView
   }
 ]
 
