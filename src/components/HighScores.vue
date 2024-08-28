@@ -136,6 +136,12 @@ const table = useVueTable({
     get expanded() {
       return expanded.value
     }
+  },
+
+  initialState: {
+    pagination: {
+      pageSize: 5,
+    },
   }
 })
 </script>
